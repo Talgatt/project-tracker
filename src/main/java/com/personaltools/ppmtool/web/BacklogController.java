@@ -15,6 +15,9 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
+/**
+ * REST controller for backlog requests
+ */
 @RestController
 @RequestMapping("/api/backlog")
 @CrossOrigin
@@ -26,7 +29,6 @@ public class BacklogController {
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
-
     @PostMapping("/{backlog_id}")
     public ResponseEntity<?> addPTtoBacklog(@Valid @RequestBody ProjectTask projectTask,
                                             BindingResult result,
@@ -34,7 +36,6 @@ public class BacklogController {
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) return errorMap;
-        System.out.println(backlog_id);
 
         ProjectTask projectTask1 = projectTaskService.addProjectTask(backlog_id, projectTask, principal.getName());
 
@@ -49,7 +50,10 @@ public class BacklogController {
 
     @GetMapping("/{backlog_id}/{pt_id}")
     public ResponseEntity<?> getProjectTask(@PathVariable String backlog_id, @PathVariable String pt_id, Principal principal){
-        ProjectTask projectTask = projectTaskService.findPTByProjectSequence(backlog_id, pt_id, principal.getName());
+
+
+       // ProjectTask projectTask = projectTaskService.findPTByProjectSequence(backlog_id, pt_id, principal.getName());
+     ProjectTask projectTask = projectTaskService.findPTByProjectSequence(backlog_id, pt_id, "Talgat Tulegenov");
 
         return new ResponseEntity<ProjectTask>(projectTask, HttpStatus.OK);
     }

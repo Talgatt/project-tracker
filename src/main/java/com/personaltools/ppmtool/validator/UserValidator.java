@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+/**
+ * Validate user
+ */
 @Component
 public class UserValidator implements Validator {
 

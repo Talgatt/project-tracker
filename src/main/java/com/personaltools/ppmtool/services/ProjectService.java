@@ -25,7 +25,6 @@ public class ProjectService {
     private UserRepository userRepository;
 
     public Project saveOrUpdateProject(Project project, String username){
-        //Logic
 
         if(project.getId() != null){
             Project existingProject = projectRepository.findByProjectIdentifier(project.getProjectIdentifier());
@@ -38,15 +37,11 @@ public class ProjectService {
         }
 
         try{
-
-
-
             User user = userRepository.findByUsername(username);
             project.setUser(user);
             project.setProjectLeader(user.getUsername());
 
             String projectId = project.getProjectIdentifier().toUpperCase();
-            //System.out.println(projectId);
             project.setProjectIdentifier(projectId);
 
             if(project.getId() == null){

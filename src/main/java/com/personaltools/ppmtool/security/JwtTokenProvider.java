@@ -2,19 +2,25 @@ package com.personaltools.ppmtool.security;
 
 import com.personaltools.ppmtool.domain.User;
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
+
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.personaltools.ppmtool.security.SecurityConstants.EXPIRATION_TIME;
-import static com.personaltools.ppmtool.security.SecurityConstants.SECRET;
+
 
 @Component
 public class JwtTokenProvider {
+
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     //Generate the token
 
@@ -36,14 +42,14 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
 
     //Validate the token
     public boolean validateToken(String token){
         try{
-            Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         }catch (SignatureException ex){
             System.out.println("Invalid JWT Signature");
@@ -62,7 +68,7 @@ public class JwtTokenProvider {
 
     //Get user Id from token
     public Long getUserIdFromJWT(String token){
-        Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
         String id = (String)claims.get("id");
 
         return Long.parseLong(id);

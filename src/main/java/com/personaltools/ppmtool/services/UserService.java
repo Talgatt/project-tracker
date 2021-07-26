@@ -21,7 +21,6 @@ public class UserService {
         try{
             newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
 
-
             // Username has to be unique (exception)
             newUser.setUsername(newUser.getUsername());
 

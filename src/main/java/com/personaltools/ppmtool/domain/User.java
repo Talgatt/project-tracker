@@ -14,13 +14,11 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-//@Table(uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Email(message = "Username needs to be an email")
     @NotBlank(message = "username is required")
     @Column(unique = true)
@@ -30,7 +28,6 @@ public class User implements UserDetails {
     @NotBlank(message = "Password field is required")
     private String password;
     @Transient
-
     private String confirmPassword;
     private Date create_At;
     private Date update_At;
@@ -39,9 +36,7 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     private List<Project> projects = new ArrayList<>();
 
-    public User(){
-
-    }
+    public User(){ }
 
     public Long getId() {
         return id;
@@ -110,7 +105,6 @@ public class User implements UserDetails {
     }
 
     // UserDetails interface methods
-
 
     @Override
     @JsonIgnore

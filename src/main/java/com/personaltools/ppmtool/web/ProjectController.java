@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * REST controller for project requests
+ */
 @RestController
 @RequestMapping("/api/project")
 @CrossOrigin
@@ -31,11 +34,11 @@ public class ProjectController {
 
     @PostMapping("")
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result, Principal principal){
-
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap!=null) return errorMap;
 
         Project project1 = projectService.saveOrUpdateProject(project, principal.getName());
+
         return new ResponseEntity<Project>(project1, HttpStatus.CREATED);
     }
 
@@ -44,12 +47,13 @@ public class ProjectController {
 
         Project project = projectService.findProjectByIdentifier(projectId, principal.getName());
 
-
         return new ResponseEntity<Project>(project, HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public Iterable<Project> getAllProjects(Principal principal){return projectService.findAllProjects(principal.getName());}
+    public Iterable<Project> getAllProjects(Principal principal){
+        return projectService.findAllProjects(principal.getName());
+    }
 
     @DeleteMapping("/{projectId}")
     public ResponseEntity<?> deleteProject(@PathVariable String projectId, Principal principal){

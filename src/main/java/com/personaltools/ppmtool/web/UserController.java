@@ -24,6 +24,9 @@ import javax.validation.Valid;
 
 import static com.personaltools.ppmtool.security.SecurityConstants.TOKEN_PREFIX;
 
+/**
+ * REST controller for user requests
+ */
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
